@@ -20,7 +20,27 @@ defmodule Sahara.Generators.Transactions do
     )
   end
 
-  def all(seed, account_id) do
+  def all(seed, account_id, opts \\ [])
+
+  def all(seed, account_id, count: count, from: from) do
+    all = all(seed, account_id)
+
+    case Integer.parse(count) do
+      {count, ""} ->
+        if is_nil(from),
+          do: Enum.take(all, count),
+          else: all |> Enum.drop_while(fn txn -> txn.id == from end) |> tl() |> Enum.take(count)
+
+      _else ->
+        all
+    end
+  end
+
+  def all(seed, account_id, count: count) do
+    all(seed, account_id, count: count, from: nil)
+  end
+
+  def all(seed, account_id, _opts) do
     seed
     |> ids(account_id)
     |> Enum.map(&gen_transaction(account_id, &1))
@@ -31,7 +51,7 @@ defmodule Sahara.Generators.Transactions do
     |> ids(account_id)
     |> Enum.find(fn {id, _days_ago} -> id == transaction_id end)
     |> case do
-      nil -> :not_found
+      nil -> nil
       id_and_days_ago -> gen_transaction(account_id, id_and_days_ago)
     end
   end
