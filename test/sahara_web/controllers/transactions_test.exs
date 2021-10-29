@@ -65,6 +65,43 @@ defmodule SaharaWeb.Controllers.TransactionsTest do
              |> json_response(404)
   end
 
+  describe "pagination support" do
+    test "it supports returning a limited set of the transactions", %{conn: conn} do
+      %{"id" => account_id} = conn |> list_accounts(@token) |> json_response(200) |> hd()
+
+      resp =
+        conn
+        |> list_transactions(account_id, %{count: 5}, @token)
+        |> json_response(200)
+
+      assert 5 = length(resp)
+    end
+
+    test "it supports full pagination of the transactions", %{conn: conn} do
+      %{"id" => account_id} = conn |> list_accounts(@token) |> json_response(200) |> hd()
+
+      all_txn = conn |> list_transactions(account_id, @token) |> json_response(200)
+
+      resp =
+        conn
+        |> list_transactions(account_id, %{count: 1}, @token)
+        |> json_response(200)
+
+      assert 1 = length(resp)
+      assert hd(resp) == hd(all_txn)
+
+      txn_id = hd(resp)["id"] |> IO.inspect()
+
+      resp =
+        conn
+        |> list_transactions(account_id, %{count: 1, from: txn_id}, @token)
+        |> json_response(200)
+
+      assert 1 = length(resp)
+      assert hd(resp) == Enum.at(all_txn, 1)
+    end
+  end
+
   defp list_accounts(conn, authnz) do
     conn
     |> put_req_header("authorization", authnz)
@@ -75,6 +112,22 @@ defmodule SaharaWeb.Controllers.TransactionsTest do
     conn
     |> put_req_header("authorization", authnz)
     |> get(Routes.transactions_path(conn, :index, account_id))
+  end
+
+  defp list_transactions(conn, account_id, %{count: count, from: from}, authnz) do
+    conn
+    |> put_req_header("authorization", authnz)
+    |> get(
+      Routes.transactions_path(conn, :index, account_id),
+      %{
+        "count" => count,
+        "from_id" => from
+      }
+    )
+  end
+
+  defp list_transactions(conn, account_id, %{count: count}, authnz) do
+    list_transactions(conn, account_id, %{count: count, from: ""}, authnz)
   end
 
   defp show_transaction(conn, account_id, transaction_id, authnz) do
