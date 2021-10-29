@@ -37,10 +37,13 @@ defmodule Sahara.Generators.Accounts do
 
   @spec by_id(iodata, String.t()) :: t | nil
   def by_id(seed, id) do
-    if id in ids(seed),
+    if exists?(seed, id),
       do: gen_account(id),
       else: nil
   end
+
+  @spec exists?(iodata, String.t()) :: boolean
+  def exists?(seed, id), do: id in ids(seed)
 
   defp gen_account(id) do
     %{

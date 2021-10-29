@@ -1,7 +1,11 @@
 defmodule SaharaWeb.Controllers.Accounts do
   use SaharaWeb, :controller
 
-  alias Sahara.Generators.Accounts
+  alias Sahara.Generators.{
+    Accounts,
+    AccountDetails,
+    AccountBalances
+  }
 
   def index(conn, _params) do
     json(conn, Accounts.all(conn.assigns.seed))
@@ -14,35 +18,17 @@ defmodule SaharaWeb.Controllers.Accounts do
     end
   end
 
-  def details(conn, _params) do
-    json(
-      conn,
-      %{
-        account_id: "acc_npg8n7kavtkupqnj8s002",
-        account_number: "797677018706",
-        links: %{
-          account: "https://api.teller.io/accounts/acc_npg8n7kavtkupqnj8s002",
-          self: "https://api.teller.io/accounts/acc_npg8n7kavtkupqnj8s002/details"
-        },
-        routing_numbers: %{
-          ach: "799553321"
-        }
-      }
-    )
+  def details(conn, %{"account_id" => account_id}) do
+    case AccountDetails.for(conn.assigns.seed, account_id) do
+      nil -> :not_found
+      account_details -> json(conn, account_details)
+    end
   end
 
-  def balances(conn, _params) do
-    json(
-      conn,
-      %{
-        account_id: "acc_npg8n7kavtkupqnj8s002",
-        available: "36986.44",
-        ledger: "37110.46",
-        links: %{
-          account: "https://api.teller.io/accounts/acc_npg8n7kavtkupqnj8s002",
-          self: "https://api.teller.io/accounts/acc_npg8n7kavtkupqnj8s002/balances"
-        }
-      }
-    )
+  def balances(conn, %{"account_id" => account_id}) do
+    case AccountBalances.for(conn.assigns.seed, account_id) do
+      nil -> :not_found
+      account_balances -> json(conn, account_balances)
+    end
   end
 end

@@ -15,8 +15,8 @@ defmodule Sahara.Randomizer do
     |> rem(upper + 1)
   end
 
-  @spec random_byte() :: ?a..?z | ?0..?9 | ?A..?Z
-  def random_byte do
+  @spec random_alphanum() :: ?a..?z | ?0..?9 | ?A..?Z
+  def random_alphanum do
     rand = Random.randint(0, 10)
 
     {start, stop} =
@@ -27,6 +27,11 @@ defmodule Sahara.Randomizer do
       end
 
     Random.randint(start, stop)
+  end
+
+  @spec random_digit() :: ?a..?z | ?0..?9 | ?A..?Z
+  def random_digit do
+    Random.randint(?0, ?9)
   end
 
   # Not sure of how bad this is to be done this way, but let's just do it for now
