@@ -1,18 +1,17 @@
 defmodule SaharaWeb.Controllers.Accounts do
   use SaharaWeb, :controller
 
-  alias Sahara.Generators
+  alias Sahara.Generators.Accounts
 
   def index(conn, _params) do
-    json(conn, Generators.Accounts.all(conn.assigns.seed))
+    json(conn, Accounts.all(conn.assigns.seed))
   end
 
-  def show(conn, _params) do
-    # 1. seed from auth
-    # 2. pass seed to accounts generator
-    # 3. use given id to get a generated account
-
-    json(conn, Generators.Account.new(""))
+  def show(conn, %{"account_id" => account_id}) do
+    case Accounts.by_id(conn.assigns.seed, account_id) do
+      nil -> :not_found
+      account -> json(conn, account)
+    end
   end
 
   def details(conn, _params) do

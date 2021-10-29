@@ -77,4 +77,6 @@ defmodule Sahara.Seeds.Merchants do
     "Sonic",
     "Shell"
   ]
+
+  def all, do: @merchants
 end

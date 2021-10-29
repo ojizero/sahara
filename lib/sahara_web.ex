@@ -23,6 +23,8 @@ defmodule SaharaWeb do
 
       import Plug.Conn
       alias SaharaWeb.Router.Helpers, as: Routes
+
+      action_fallback SaharaWeb.Controllers.Fallback
     end
   end
 
