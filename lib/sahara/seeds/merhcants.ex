@@ -1,5 +1,7 @@
 defmodule Sahara.Seeds.Merchants do
-  @merchants [
+  alias Sahara.Randomizer
+
+  @all [
     "Uber",
     "Uber Eats",
     "Lyft",
@@ -77,6 +79,13 @@ defmodule Sahara.Seeds.Merchants do
     "Sonic",
     "Shell"
   ]
+  @count length(@all) - 1
 
-  def all, do: @merchants
+  def all, do: @all
+
+  def random(seed) do
+    index = Randomizer.bounded_number(seed, @count)
+
+    Enum.at(@all, index)
+  end
 end

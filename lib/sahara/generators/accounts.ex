@@ -23,10 +23,9 @@ defmodule Sahara.Generators.Accounts do
         }
 
   def ids(seed) do
-    # Ensure it never zeroes out by always adding 1
-    accounts_count = Sahara.Randomizer.bounded_number(seed, 4) + 1
+    accounts_count = Sahara.Randomizer.bounded_number(seed, 5)
 
-    Enum.map(0..accounts_count, fn i -> gen_id([seed, i]) end)
+    Enum.map(1..accounts_count, fn i -> gen_id([seed, i]) end)
   end
 
   def all(seed) do

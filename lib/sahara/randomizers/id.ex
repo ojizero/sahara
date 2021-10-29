@@ -8,7 +8,7 @@ defmodule Sahara.Randomizers.Id do
     # based on newly set seed we'll make a random string now of length 20~25
     length = Random.randint(20, 25)
 
-    id = Enum.map(0..length, fn _i -> random_alphanum() end)
+    id = Enum.map(1..length, fn _i -> random_alphanum() end)
 
     maybe_reset_seed()
 

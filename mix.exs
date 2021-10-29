@@ -32,7 +32,8 @@ defmodule Sahara.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:random, "~> 0.2.4"}
+      {:random, "~> 0.2.4"},
+      {:faker, "~> 0.16"}
     ]
   end
 
