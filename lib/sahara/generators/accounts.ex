@@ -1,4 +1,5 @@
 defmodule Sahara.Generators.Accounts do
+  alias Sahara.Helpers.BasePath
   alias Sahara.Randomizers.Id
   alias Sahara.Seeds.Institutions
 
@@ -70,10 +71,10 @@ defmodule Sahara.Generators.Accounts do
 
   defp gen_links(id) do
     %{
-      self: "https://api.teller.io/accounts/#{id}",
-      details: "https://api.teller.io/accounts/#{id}/details",
-      balances: "https://api.teller.io/accounts/#{id}/balances",
-      transactions: "https://api.teller.io/accounts/#{id}/transactions"
+      self: "#{BasePath.base_endpoint()}/accounts/#{id}",
+      details: "#{BasePath.base_endpoint()}/accounts/#{id}/details",
+      balances: "#{BasePath.base_endpoint()}/accounts/#{id}/balances",
+      transactions: "#{BasePath.base_endpoint()}/accounts/#{id}/transactions"
     }
   end
 end

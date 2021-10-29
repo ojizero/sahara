@@ -1,4 +1,5 @@
 defmodule Sahara.Generators.AccountBalances do
+  alias Sahara.Helpers.BasePath
   alias Sahara.Randomizers.Number
   alias Sahara.Generators.Accounts
 
@@ -23,8 +24,8 @@ defmodule Sahara.Generators.AccountBalances do
 
   defp gen_links(id) do
     %{
-      account: "https://api.teller.io/accounts/#{id}",
-      self: "https://api.teller.io/accounts/#{id}/balances"
+      account: "#{BasePath.base_endpoint()}/accounts/#{id}",
+      self: "#{BasePath.base_endpoint()}/accounts/#{id}/balances"
     }
   end
 end

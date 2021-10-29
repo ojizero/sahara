@@ -1,4 +1,5 @@
 defmodule Sahara.Generators.Transactions do
+  alias Sahara.Helpers.BasePath
   alias Sahara.Randomizer
   alias Sahara.Randomizers.Id
   alias Sahara.Randomizers.Name
@@ -22,7 +23,7 @@ defmodule Sahara.Generators.Transactions do
 
   def all(seed, account_id, opts \\ [])
 
-  def all(seed, account_id, count: count, from: from) do
+  def all(seed, account_id, count: count, from: from) when not is_nil(count) do
     all = all(seed, account_id)
 
     case Integer.parse(count) do
@@ -36,7 +37,7 @@ defmodule Sahara.Generators.Transactions do
     end
   end
 
-  def all(seed, account_id, count: count) do
+  def all(seed, account_id, count: count) when not is_nil(count) do
     all(seed, account_id, count: count, from: nil)
   end
 
@@ -103,8 +104,8 @@ defmodule Sahara.Generators.Transactions do
 
   defp gen_links(account_id, transaction_id) do
     %{
-      account: "https://api.teller.io/accounts/#{account_id}",
-      self: "https://api.teller.io/accounts/#{account_id}/transactions/#{transaction_id}"
+      account: "#{BasePath.base_endpoint()}/accounts/#{account_id}",
+      self: "#{BasePath.base_endpoint()}/accounts/#{account_id}/transactions/#{transaction_id}"
     }
   end
 

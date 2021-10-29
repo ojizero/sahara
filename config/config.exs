@@ -1,7 +1,10 @@
 use Mix.Config
 
+host = System.get_env("HOST", "localhost")
+scheme = System.get_env("SCHEME", "http")
+
 config :sahara, SaharaWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: host],
   secret_key_base: "TvYXhUFTZG4a1tHJ5tQtqK6dabPh8CmBIS15BaSDGSYhKDkN3vhsj430Rl99DUl+",
   render_errors: [view: SaharaWeb.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: Sahara.PubSub,
@@ -14,5 +17,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :faker, :random_module, Sahara.Randomizers.Faker
+
+config :sahara, :base_endpoint, "#{scheme}://#{host}"
 
 import_config "#{Mix.env()}.exs"
