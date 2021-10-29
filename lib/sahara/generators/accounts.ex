@@ -2,7 +2,8 @@ defmodule Sahara.Generators.Accounts do
   alias Sahara.Generators.Account
 
   def all(seed) do
-    accounts_count = Sahara.Randomizer.bounded_number(seed, 10)
+    # Ensure it never zeroes out by always adding 1
+    accounts_count = Sahara.Randomizer.bounded_number(seed, 4) + 1
 
     Enum.map(
       0..accounts_count,

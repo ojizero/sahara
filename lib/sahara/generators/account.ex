@@ -1,5 +1,6 @@
 defmodule Sahara.Generators.Account do
   alias Sahara.Randomizers.Id
+  alias Sahara.Seeds.Institutions
 
   @type t :: %{
           id: String.t(),
@@ -46,11 +47,7 @@ defmodule Sahara.Generators.Account do
   defp gen_enrollment_id(seed), do: Id.new(["enr", seed])
   defp gen_last_four(_seed), do: "8706"
 
-  defp gen_institution(_seed),
-    do: %{
-      id: "us_bank",
-      name: "US Bank"
-    }
+  defp gen_institution(seed), do: Institutions.random(seed)
 
   defp gen_links(id) do
     %{
