@@ -58,7 +58,7 @@ defmodule SaharaWeb.Controllers.AccountsTest do
     test "it returns details of a given accounts", %{conn: conn} do
       %{"id" => account_id} = conn |> list_accounts(@token) |> json_response(200) |> hd()
 
-      assert %{"account_id" => account_id} =
+      assert %{"account_id" => ^account_id} =
                conn |> show_details(account_id, @token) |> json_response(200)
     end
   end
@@ -67,7 +67,7 @@ defmodule SaharaWeb.Controllers.AccountsTest do
     test "it returns balances of a given accounts", %{conn: conn} do
       %{"id" => account_id} = conn |> list_accounts(@token) |> json_response(200) |> hd()
 
-      assert %{"account_id" => account_id} =
+      assert %{"account_id" => ^account_id} =
                conn |> show_balances(account_id, @token) |> json_response(200)
     end
   end
