@@ -140,8 +140,6 @@ defmodule Sahara.Generators.Transactions do
   end
 
   defp gen_amount(transaction_id) do
-    size = Random.randint(2, 3)
-
-    Number.negative_amount(transaction_id, size)
+    Number.negative_amount(transaction_id, 3)
   end
 end
