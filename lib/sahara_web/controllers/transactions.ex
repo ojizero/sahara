@@ -7,13 +7,10 @@ defmodule SaharaWeb.Controllers.Accounts.Transactions do
     count = Map.get(params, "count")
     from_id = Map.get(params, "from_id")
 
-    cond do
-      Accounts.exists?(conn.assigns.seed, account_id) ->
-        json(conn, Transactions.all(conn.assigns.seed, account_id, count: count, from: from_id))
-
-      :else ->
-        :not_found
-    end
+    if Accounts.exists?(conn.assigns.seed, account_id),
+      do:
+        json(conn, Transactions.all(conn.assigns.seed, account_id, count: count, from: from_id)),
+      else: :not_found
   end
 
   def show(conn, %{"account_id" => account_id, "transaction_id" => transaction_id}) do
