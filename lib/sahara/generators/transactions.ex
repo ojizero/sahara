@@ -39,9 +39,17 @@ defmodule Sahara.Generators.Transactions do
 
     case Integer.parse(count) do
       {count, ""} ->
-        if is_nil(from) or from == "",
-          do: Enum.take(all, count),
-          else: all |> Enum.drop_while(fn txn -> txn.id == from end) |> tl() |> Enum.take(count)
+        if is_nil(from) or from == "" do
+          Enum.take(all, count)
+        else
+          all
+          |> Enum.drop_while(fn txn -> txn.id != from end)
+          |> case do
+            [%{id: ^from} | rest] -> rest
+            [] -> []
+          end
+          |> Enum.take(count)
+        end
 
       _else ->
         all
