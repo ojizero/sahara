@@ -23,17 +23,18 @@ defmodule Sahara.Generators.Account do
 
   @spec new(iodata) :: t
   def new(seed) do
-    # TODO: use generated ID as seed for the rest of this generator?
+    account_id = gen_id(seed)
+
     %{
-      id: gen_id(seed),
-      name: gen_name(seed),
-      type: gen_type(seed),
-      subtype: gen_subtype(seed),
-      currency: gen_currency(seed),
-      last_four: gen_last_four(seed),
-      institution: gen_institution(seed),
-      enrollment_id: gen_enrollment_id(seed),
-      links: gen_links("")
+      id: account_id,
+      name: gen_name(account_id),
+      type: gen_type(account_id),
+      subtype: gen_subtype(account_id),
+      currency: gen_currency(account_id),
+      last_four: gen_last_four(account_id),
+      institution: gen_institution(account_id),
+      enrollment_id: gen_enrollment_id(account_id),
+      links: gen_links(account_id)
     }
   end
 
@@ -42,7 +43,7 @@ defmodule Sahara.Generators.Account do
   defp gen_type(_seed), do: "depository"
   defp gen_subtype(_seed), do: "checking"
   defp gen_currency(_seed), do: "USD"
-  defp gen_enrollment_id(_seed), do: "enr_npg8n7kkgnu26gmimk000"
+  defp gen_enrollment_id(seed), do: Id.new(["enr", seed])
   defp gen_last_four(_seed), do: "8706"
 
   defp gen_institution(_seed),
@@ -51,13 +52,12 @@ defmodule Sahara.Generators.Account do
       name: "US Bank"
     }
 
-  defp gen_links(_id) do
-    # TODO: pull current app base path
+  defp gen_links(id) do
     %{
-      balances: "https://api.teller.io/accounts/acc_npg8n7kavtkupqnj8s002/balances",
-      details: "https://api.teller.io/accounts/acc_npg8n7kavtkupqnj8s002/details",
-      self: "https://api.teller.io/accounts/acc_npg8n7kavtkupqnj8s002",
-      transactions: "https://api.teller.io/accounts/acc_npg8n7kavtkupqnj8s002/transactions"
+      self: "https://api.teller.io/accounts/#{id}",
+      details: "https://api.teller.io/accounts/#{id}/details",
+      balances: "https://api.teller.io/accounts/#{id}/balances",
+      transactions: "https://api.teller.io/accounts/#{id}/transactions"
     }
   end
 end

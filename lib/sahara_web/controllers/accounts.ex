@@ -4,10 +4,7 @@ defmodule SaharaWeb.Controllers.Accounts do
   alias Sahara.Generators
 
   def index(conn, _params) do
-    # 1. seed from auth
-    # 2. pass seed to accounts generator
-
-    json(conn, Generators.Accounts.all(""))
+    json(conn, Generators.Accounts.all(conn.assigns.seed))
   end
 
   def show(conn, _params) do
