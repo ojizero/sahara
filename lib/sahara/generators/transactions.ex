@@ -1,4 +1,5 @@
 defmodule Sahara.Generators.Transactions do
+  alias Sahara.Generators.Accounts
   alias Sahara.Helpers.BasePath
   alias Sahara.Randomizer
   alias Sahara.Randomizers.Id
@@ -48,7 +49,9 @@ defmodule Sahara.Generators.Transactions do
   end
 
   def all(seed, account_id, count: count) when not is_nil(count) and count != "" do
-    all(seed, account_id, count: count, from: nil)
+    if Accounts.exists?(seed, account_id),
+      do: all(seed, account_id, count: count, from: nil),
+      else: []
   end
 
   def all(seed, account_id, _opts) do
