@@ -23,12 +23,12 @@ defmodule Sahara.Generators.Transactions do
 
   def all(seed, account_id, opts \\ [])
 
-  def all(seed, account_id, count: count, from: from) when not is_nil(count) do
+  def all(seed, account_id, count: count, from: from) when not is_nil(count) and count != "" do
     all = all(seed, account_id)
 
     case Integer.parse(count) do
       {count, ""} ->
-        if is_nil(from),
+        if is_nil(from) or from == "",
           do: Enum.take(all, count),
           else: all |> Enum.drop_while(fn txn -> txn.id == from end) |> tl() |> Enum.take(count)
 
@@ -37,7 +37,7 @@ defmodule Sahara.Generators.Transactions do
     end
   end
 
-  def all(seed, account_id, count: count) when not is_nil(count) do
+  def all(seed, account_id, count: count) when not is_nil(count) and count != "" do
     all(seed, account_id, count: count, from: nil)
   end
 

@@ -1,6 +1,7 @@
 use Mix.Config
 
 host = System.get_env("HOST", "localhost")
+port = System.get_env("PORT", "4000")
 scheme = System.get_env("SCHEME", "http")
 
 config :sahara, SaharaWeb.Endpoint,
@@ -18,6 +19,6 @@ config :phoenix, :json_library, Jason
 
 config :faker, :random_module, Sahara.Randomizers.Faker
 
-config :sahara, :base_endpoint, "#{scheme}://#{host}"
+config :sahara, :base_endpoint, "#{scheme}://#{host}:#{port}"
 
 import_config "#{Mix.env()}.exs"

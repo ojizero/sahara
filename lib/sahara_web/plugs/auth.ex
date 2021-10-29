@@ -2,7 +2,20 @@ defmodule SaharaWeb.Plugs.Auth do
   import Plug.Conn
 
   @accepted_tokens [
-    "test_token_ieunxpma6pxnk"
+    "test_token_ieunxpma6pxnk",
+    "test_token_MHCqhbYKsc007",
+    "test_token_JbSVJAsdlx007",
+    "test_token_d28ilZPYNX007",
+    "test_token_7bVt6p2GFx007",
+    "test_token_0d1fuvoiXw007",
+    "test_token_DhpxehcVtQ007",
+    "test_token_K6YyTrbyLj007",
+    "test_token_fJlkFXvxTb007",
+    "test_token_b2wQYopiPJ007",
+    "test_token_OOwCryiOCu007",
+    "test_token_Qn7nw0iY6P007",
+    "test_token_IEvbInvmje007",
+    "test_token_A5zZ87JXy5007"
   ]
 
   def init(opts), do: opts
