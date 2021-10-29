@@ -7,20 +7,30 @@ defmodule Sahara.Generators.Transactions do
 
   alias Sahara.Seeds.Categories
 
-  defp ids(seed, account_id) do
-    Enum.flat_map(
-      0..90,
-      fn days_ago ->
-        count = Randomizer.bounded_number([seed, account_id, days_ago], 5)
+  @type t :: %{
+          account_id: String.t(),
+          amount: String.t(),
+          date: String.t(),
+          description: String.t(),
+          details: %{
+            category: String.t(),
+            counterparty: %{name: String.t(), type: String.t()},
+            processing_status: String.t()
+          },
+          id: String.t(),
+          links: %{account: String.t(), self: String.t()},
+          running_balance: nil,
+          status: String.t(),
+          type: String.t()
+        }
 
-        if count == 0,
-          do: [],
-          else:
-            Enum.map(1..count, fn i -> {gen_id([seed, account_id, days_ago, i]), days_ago} end)
-      end
-    )
-  end
+  @type pagination ::
+          []
+          | [count: String.t()]
+          | [count: String.t(), from: String.t()]
 
+  @spec all(iodata, String.t()) :: [t]
+  @spec all(iodata, String.t(), pagination) :: [t]
   def all(seed, account_id, opts \\ [])
 
   def all(seed, account_id, count: count, from: from) when not is_nil(count) and count != "" do
@@ -47,6 +57,7 @@ defmodule Sahara.Generators.Transactions do
     |> Enum.map(&gen_transaction(account_id, &1))
   end
 
+  @spec by_id(any, any, any) :: t | nil
   def by_id(seed, account_id, transaction_id) do
     seed
     |> ids(account_id)
@@ -55,6 +66,20 @@ defmodule Sahara.Generators.Transactions do
       nil -> nil
       id_and_days_ago -> gen_transaction(account_id, id_and_days_ago)
     end
+  end
+
+  defp ids(seed, account_id) do
+    Enum.flat_map(
+      0..90,
+      fn days_ago ->
+        count = Randomizer.bounded_number([seed, account_id, days_ago], 5)
+
+        if count == 0,
+          do: [],
+          else:
+            Enum.map(1..count, fn i -> {gen_id([seed, account_id, days_ago, i]), days_ago} end)
+      end
+    )
   end
 
   defp gen_transaction(account_id, {transaction_id, days_ago}) do
@@ -111,7 +136,7 @@ defmodule Sahara.Generators.Transactions do
   end
 
   defp now_minus_days(days_ago) do
-    Date.utc_today() |> Date.add(-days_ago)
+    Date.utc_today() |> Date.add(-days_ago) |> Date.to_iso8601()
   end
 
   defp gen_amount(transaction_id) do

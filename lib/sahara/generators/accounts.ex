@@ -25,12 +25,7 @@ defmodule Sahara.Generators.Accounts do
           }
         }
 
-  def ids(seed) do
-    accounts_count = Sahara.Randomizer.bounded_number(seed, 5)
-
-    Enum.map(1..accounts_count, fn i -> gen_id([seed, i]) end)
-  end
-
+  @spec all(iodata) :: [t]
   def all(seed) do
     seed
     |> ids()
@@ -46,6 +41,12 @@ defmodule Sahara.Generators.Accounts do
 
   @spec exists?(iodata, String.t()) :: boolean
   def exists?(seed, id), do: id in ids(seed)
+
+  defp ids(seed) do
+    accounts_count = Sahara.Randomizer.bounded_number(seed, 5)
+
+    Enum.map(1..accounts_count, fn i -> gen_id([seed, i]) end)
+  end
 
   defp gen_account(id) do
     %{

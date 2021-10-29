@@ -3,7 +3,15 @@ defmodule Sahara.Generators.AccountBalances do
   alias Sahara.Randomizers.Number
   alias Sahara.Generators.Accounts
 
-  def for(seed, account_id) do
+  @type t :: %{
+          account_id: String.t(),
+          available: String.t(),
+          ledger: String.t(),
+          links: %{account: String.t(), self: String.t()}
+        }
+
+  @spec for_account(iodata, String.t()) :: t | nil
+  def for_account(seed, account_id) do
     if Accounts.exists?(seed, account_id),
       do: gen_balances(seed, account_id),
       else: nil

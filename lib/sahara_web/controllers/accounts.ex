@@ -19,14 +19,14 @@ defmodule SaharaWeb.Controllers.Accounts do
   end
 
   def details(conn, %{"account_id" => account_id}) do
-    case AccountDetails.for(conn.assigns.seed, account_id) do
+    case AccountDetails.for_account(conn.assigns.seed, account_id) do
       nil -> :not_found
       account_details -> json(conn, account_details)
     end
   end
 
   def balances(conn, %{"account_id" => account_id}) do
-    case AccountBalances.for(conn.assigns.seed, account_id) do
+    case AccountBalances.for_account(conn.assigns.seed, account_id) do
       nil -> :not_found
       account_balances -> json(conn, account_balances)
     end
