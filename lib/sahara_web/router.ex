@@ -3,7 +3,7 @@ defmodule SaharaWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    # authn
+    plug SaharaWeb.Plugs.Auth
   end
 
   scope "/accounts", SaharaWeb.Controllers do
