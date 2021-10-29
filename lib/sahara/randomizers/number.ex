@@ -13,7 +13,7 @@ defmodule Sahara.Randomizers.Number do
   end
 
   def amount(seed, size) do
-    whole_number = new(seed, size)
+    whole_number = seed |> new(size) |> String.to_integer() |> Integer.to_string()
 
     fraction = new(seed, 2)
 
