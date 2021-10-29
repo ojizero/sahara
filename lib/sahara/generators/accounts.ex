@@ -1,6 +1,8 @@
 defmodule Sahara.Generators.Accounts do
   alias Sahara.Helpers.BasePath
   alias Sahara.Randomizers.Id
+  alias Sahara.Randomizers.Name
+  alias Sahara.Randomizers.Number
   alias Sahara.Seeds.Institutions
 
   @type t :: %{
@@ -60,12 +62,12 @@ defmodule Sahara.Generators.Accounts do
   end
 
   defp gen_id(seed), do: Id.new(["acc", seed])
-  defp gen_name(_seed), do: "My Checking"
+  defp gen_name(seed), do: Name.account(seed)
   defp gen_type(_seed), do: "depository"
   defp gen_subtype(_seed), do: "checking"
   defp gen_currency(_seed), do: "USD"
   defp gen_enrollment_id(seed), do: Id.new(["enr", seed])
-  defp gen_last_four(_seed), do: "8706"
+  defp gen_last_four(seed), do: Number.new(seed, 4)
 
   defp gen_institution(seed), do: Institutions.random(seed)
 

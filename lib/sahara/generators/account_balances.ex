@@ -14,9 +14,10 @@ defmodule Sahara.Generators.AccountBalances do
 
     %{
       account_id: account_id,
-      # TODO: randomize those (make randomized outstanding/pending transactions and subtract them from ledger)
-      available: "36986.44",
-      # TODO: randomize those
+      # This should be the amount of ledger minus any pending transactions
+      # from the what I can tell in the actual sandbox API they numbers
+      # don't add up so I'll leave it like this for now.
+      available: ledger_amount,
       ledger: ledger_amount,
       links: gen_links(account_id)
     }

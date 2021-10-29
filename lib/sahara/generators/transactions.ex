@@ -67,7 +67,8 @@ defmodule Sahara.Generators.Transactions do
       date: now_minus_days(days_ago),
       description: counter_party.name,
       details: %{
-        # should this be bounded by the merchant found?
+        # Unsure if to use the example merchants given,
+        # so I'll  use the Faker BS names for now.
         category: Categories.random(transaction_id),
         counterparty: counter_party,
         processing_status: "complete"

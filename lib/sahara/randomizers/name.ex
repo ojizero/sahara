@@ -11,6 +11,16 @@ defmodule Sahara.Randomizers.Name do
     name
   end
 
+  def account(seed) do
+    set_seed(seed)
+
+    name = Faker.Lorem.sentence(1..3)
+
+    maybe_reset_seed()
+
+    name
+  end
+
   def merchant(seed) do
     set_seed(seed)
 

@@ -20,10 +20,7 @@ defmodule Sahara.Generators.AccountDetails do
 
   defp gen_account_number(seed), do: Number.new(seed, 12)
 
-  defp gen_routing_numbers(seed),
-    do: %{
-      ach: Number.new(seed, 9)
-    }
+  defp gen_routing_numbers(seed), do: %{ach: Number.new(seed, 9)}
 
   defp gen_links(id) do
     %{
